@@ -11,5 +11,5 @@ type User struct {
     Password       string    `gorm:"not null" json:"password"`
     Username       string    `gorm:"unique;not null" json:"username"`
     AccountCreated time.Time `gorm:"default:current_timestamp" json:"account_created"`
-    AccountUpdated time.Time `gorm:"default:null" json:"account_updated"`
+    AccountUpdated time.Time `gorm:"default:current_timestamp" json:"account_updated"`
 }
