@@ -4,7 +4,14 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jicodes/webapp/initializers"
 )
+
+func init() {
+	initializers.LoadEnvVariables()
+	initializers.ConnectDB()
+	initializers.SyncDB()
+}
 
 func main() {
 	r := gin.Default()
