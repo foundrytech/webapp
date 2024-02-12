@@ -22,5 +22,5 @@ jobs:
     - name: Build - compile Go code into executable binaries
       run: go build -v .
     
-    # - name: Simulate failure
-    #   run: exit 1
+    - name: Simulate failure
+      run: exit 1
