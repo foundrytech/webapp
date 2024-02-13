@@ -31,6 +31,7 @@ func CreateUser(c *gin.Context) {
 		})
 		return
 	}
+
 	user := models.User{
 		FirstName: body.FirstName,
 		LastName: body.LastName,
@@ -45,9 +46,7 @@ func CreateUser(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusCreated, gin.H{ //201
-		"message": "User created",
-	}) 
+	c.JSON(http.StatusCreated, user) 
 }
 
 func GetUser(c *gin.Context) {
