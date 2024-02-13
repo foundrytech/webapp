@@ -1,7 +1,8 @@
 package models
 
 import (
-	"time"
+    "time"
+	"regexp"
 )
 
 type User struct {
@@ -21,4 +22,13 @@ type PublicUser struct {
     Username       string    `json:"username"`
     AccountCreated time.Time `json:"account_created"`
     AccountUpdated time.Time `json:"account_updated"`
+}
+
+func ValidateEmail(username string) bool {
+    var emailRegex = regexp.MustCompile(`^[a-z0-9._\-]+@[a-z0-9.\-]+\.[a-z]{2,7}$`)
+    if emailRegex.MatchString(username) {
+        return true
+    }
+    
+    return false
 }

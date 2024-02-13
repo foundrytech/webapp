@@ -24,6 +24,14 @@ func CreateUser(c *gin.Context) {
 		}) 
 		return
 	}
+
+	if !models.ValidateEmail(body.Username) {
+		c.JSON(http.StatusBadRequest, gin.H{ //400
+			"error": "Username must be a valid email",
+		})
+		return
+	}
+
 	hash, err := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{ //400
