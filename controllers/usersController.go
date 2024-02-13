@@ -46,22 +46,23 @@ func CreateUser(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusCreated, user) 
+
+	publicUser := models.PublicUser{
+		ID:             user.ID,
+		FirstName:      user.FirstName,
+		LastName:       user.LastName,
+		Username:       user.Username,
+		AccountCreated: user.AccountCreated,
+		AccountUpdated: user.AccountUpdated,
+	}
+
+	c.JSON(http.StatusCreated, publicUser) 
 }
 
 func GetUser(c *gin.Context) {
 	user := c.MustGet("user").(models.User)
 
-	type publicUser struct {
-		ID             string    `json:"id"`
-		FirstName      string    `json:"first_name"`
-		LastName       string    `json:"last_name"`
-		Username       string    `json:"username"`
-		AccountCreated time.Time `json:"account_created"`
-		AccountUpdated time.Time `json:"account_updated"`
-	}
-
-	public := publicUser{
+	public := models.PublicUser{
 		ID:             user.ID,
 		FirstName:      user.FirstName,
 		LastName:       user.LastName,

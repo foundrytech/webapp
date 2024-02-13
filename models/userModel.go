@@ -13,3 +13,12 @@ type User struct {
     AccountCreated time.Time `gorm:"default:current_timestamp" json:"account_created"`
     AccountUpdated time.Time `gorm:"default:current_timestamp" json:"account_updated"`
 }
+
+type PublicUser struct {
+    ID             string    `json:"id"`
+    FirstName      string    `json:"first_name"`
+    LastName       string    `json:"last_name"`
+    Username       string    `json:"username"`
+    AccountCreated time.Time `json:"account_created"`
+    AccountUpdated time.Time `json:"account_updated"`
+}
