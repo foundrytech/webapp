@@ -32,6 +32,15 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
+	var existingUser models.User
+	existence := initializers.DB.First(&existingUser, "username = ?", body.Username)
+	if existence.Error == nil {
+		c.JSON(http.StatusBadRequest, gin.H{ //400
+			"error": "User already exists",
+		})
+		return
+	}
+
 	hash, err := bcrypt.GenerateFromPassword([]byte(body.Password), bcrypt.DefaultCost)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{ //400
@@ -39,15 +48,15 @@ func CreateUser(c *gin.Context) {
 		})
 		return
 	}
-
-	user := models.User{
+	
+	newUser := models.User{
 		FirstName: body.FirstName,
 		LastName: body.LastName,
 		Password: string(hash),
 		Username: body.Username, 
 	}
-	
-	result := initializers.DB.Create(&user)
+
+	result := initializers.DB.Create(&newUser)
 	if result.Error != nil {
 		c.JSON(http.StatusBadRequest, gin.H{ //400
 			"error": "Failed to create user",
@@ -56,12 +65,12 @@ func CreateUser(c *gin.Context) {
 	}
 
 	publicUser := models.PublicUser{
-		ID:             user.ID,
-		FirstName:      user.FirstName,
-		LastName:       user.LastName,
-		Username:       user.Username,
-		AccountCreated: user.AccountCreated,
-		AccountUpdated: user.AccountUpdated,
+		ID:             newUser.ID,
+		FirstName:      newUser.FirstName,
+		LastName:       newUser.LastName,
+		Username:       newUser.Username,
+		AccountCreated: newUser.AccountCreated,
+		AccountUpdated: newUser.AccountUpdated,
 	}
 
 	c.JSON(http.StatusCreated, publicUser) 
