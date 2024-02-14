@@ -105,19 +105,18 @@ func UpdateUser(c *gin.Context) {
 	// Check disallowed fields in the request body
   if updated.ID != "" ||  updated.Username != "" || updated.AccountCreated != (time.Time{}) || updated.AccountUpdated != (time.Time{}) {
     c.JSON(http.StatusBadRequest, gin.H{ //400
-      "error": "Attempt to update disallowed field",
+      "error": "You can only update the fields of FirstName, LastName and Password",
     })
     return
   }
 
   // Return 204 if no changes were made
 	if updated.FirstName == "" && updated.LastName == "" && updated.Password == "" {
-		c.JSON(http.StatusNoContent, gin.H{
-			"message": "No changes were made",
-		})
+		c.JSON(http.StatusNoContent, nil) // 204 expects no body in the response
 		return
 	}
 
+	// Update the user successfully
 	user.FirstName = updated.FirstName
 	user.LastName = updated.LastName
 	if updated.Password != "" {
