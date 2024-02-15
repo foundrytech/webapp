@@ -16,13 +16,7 @@ func init () {
 }
 
 func setupRouter() *gin.Engine {
-	router := gin.Default()
-	return router
-}
-
-func main() {
-	r := setupRouter()
-	
+	r := gin.Default()
 	r.Use(middlewares.CheckRequestMethod())
 	r.Use(middlewares.CheckPayload())
 
@@ -42,6 +36,10 @@ func main() {
 	r.GET("/v1/user/self", middlewares.BasicAuth(), controllers.GetUser)
 	r.PUT("/v1/user/self", middlewares.BasicAuth(), controllers.UpdateUser)
 
-	r.Run()
+	return r
+}
 
+func main() {
+	r := setupRouter()
+	r.Run()
 }
