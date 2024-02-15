@@ -140,7 +140,5 @@ func UpdateUser(c *gin.Context) {
     return
   }
 
-  c.JSON(http.StatusOK, gin.H{
-    "User updated successfully": user,
-	})
+  c.JSON(http.StatusOK, user)
 }
