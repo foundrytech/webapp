@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -53,7 +54,7 @@ func CreateUser(c *gin.Context) {
 		FirstName: body.FirstName,
 		LastName: body.LastName,
 		Password: string(hash),
-		Username: body.Username, 
+		Username: strings.ToLower(body.Username),
 	}
 
 	result := initializers.DB.Create(&newUser)
