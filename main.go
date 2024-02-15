@@ -15,8 +15,13 @@ func init () {
 	initializers.SyncDB()
 }
 
+func setupRouter() *gin.Engine {
+	router := gin.Default()
+	return router
+}
+
 func main() {
-	r := gin.Default()
+	r := setupRouter()
 	
 	r.Use(middlewares.CheckRequestMethod())
 	r.Use(middlewares.CheckPayload())
