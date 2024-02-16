@@ -37,14 +37,13 @@ jobs:
       - name: Get all dependencies based on go.mod
         run: go mod download
 
+      - name: Set up environment variables
+        run: echo "DB_DSN=host=localhost port=5432 user=postgres password=postgres dbname=postgres sslmode=disable" >> $GITHUB_ENV
+
       - name: Run integration tests
         run: go test -v ./...
-        env:
-          DB_DSN: "host=localhost port=5432 user=postgres password=postgres dbname=postgres sslmode=disable"
 
       - name: Build and run the webapp
         run: |
           go build -o webapp
           ./webapp
-        env:
-          DB_DSN: "host=localhost port=5432 user=postgres password=postgres dbname=postgres sslmode=disable"
