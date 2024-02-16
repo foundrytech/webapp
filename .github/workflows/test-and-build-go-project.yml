@@ -47,4 +47,5 @@ jobs:
         run: |
           go build -o webapp
           nohup ./webapp &
+          wait $!
           echo "Webapp is running in the background"
