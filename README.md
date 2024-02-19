@@ -1,3 +1,4 @@
+test
 # Webapp inplemented in Go/Gin with Postgres and Gorm
 
 ## Prerequisites
