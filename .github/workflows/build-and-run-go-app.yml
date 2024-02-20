@@ -1,9 +1,9 @@
-name: Build and run Go project
+name: Go webapp Workflow
 
 on: pull_request
 
 jobs:
-  build-go-project:
+  build-and-run:
     runs-on: ubuntu-latest
 
     services:

@@ -1,9 +1,9 @@
-name: Go project with integration tests
+name: Go webapp Workflow
 
 on: pull_request
 
 jobs:
-  build-go-project:
+  integration-tests:
     runs-on: ubuntu-latest
 
     services:
