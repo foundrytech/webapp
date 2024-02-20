@@ -1,4 +1,4 @@
-name: go project with integration tests
+name: Go project with integration tests
 
 on: pull_request
 
