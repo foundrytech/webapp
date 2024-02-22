@@ -10,9 +10,8 @@ sudo tar -C /usr/local -xzf go1.21.6.linux-amd64.tar.gz
 
 rm go1.21.6.linux-amd64.tar.gz
 
-echo "export PATH=$PATH:/usr/local/go/bin" >> $HOME/.profile
+echo "export PATH=$PATH:/usr/local/go/bin" | sudo tee -a /etc/profile
 
-source $HOME/.profile
-
+source /etc/profile
 
 go version
