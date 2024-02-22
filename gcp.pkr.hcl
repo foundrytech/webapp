@@ -8,7 +8,7 @@ packer {
 }
 
 variable "project_id" {
-  type = string
+  type    = string
   default = "true-server-412502"
 }
 
@@ -30,6 +30,16 @@ variable "disk_size" {
 variable "disk_type" {
   type    = string
   default = "pd-standard"
+}
+
+variable "webapp_path" {
+  type    = string
+  default = "webapp"
+}
+
+variable "service_file_path" {
+  type    = string
+  default = "webapp.service"
 }
 
 source "googlecompute" "csye6225-app-custom-image" {
@@ -54,20 +64,42 @@ build {
   //   script = "updateOS.sh"
   // }
 
-  provisioner "shell" {
-    script = "setupGolang.sh"
-  }
+  // provisioner "shell" {
+  //   script = "setupGolang.sh"
+  // }
 
-  provisioner "shell" {
-    script = "setupDB.sh"
-  }
+  // provisioner "shell" {
+  //   script = "setupDB.sh"
+  // }
 
   provisioner "shell" {
     script = "setupVmUser.sh"
   }
 
   provisioner "shell" {
-    script = "setupApp.sh"
+    script = "setupAppDir.sh"
+  }
+
+  provisioner "file" {
+    source      = var.webapp_path
+    destination = "/opt/myapp/webapp"
+  }
+
+  provisioner "shell" {
+    script = "setupAppPermission.sh"
+  }
+
+  provisioner "shell" {
+    inline = [
+      # Change systemd directory permissions
+      "sudo chown packer:packer /etc/systemd/system/",
+      "sudo chmod 755 /etc/systemd/system/"
+    ]
+  }
+
+  provisioner "file" {
+    source      = var.service_file_path
+    destination = "/etc/systemd/system/webapp.service"
   }
 
   provisioner "shell" {
