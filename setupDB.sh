@@ -4,7 +4,6 @@ set -e
 
 DB_USER="postgres"
 DB_PASSWORD="postgres"
-DB_NAME="postgres"
 
 # Install PostgreSQL with enabled module
 sudo dnf module list postgresql 
