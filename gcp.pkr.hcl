@@ -9,6 +9,7 @@ packer {
 
 variable "project_id" {
   type = string
+  default = "true-server-412502"
 }
 
 variable "source_image_family" {
@@ -18,7 +19,7 @@ variable "source_image_family" {
 
 variable "zone" {
   type    = string
-  default = "us-west1-a"
+  default = "us-central1-a"
 }
 
 variable "disk_size" {
@@ -38,11 +39,10 @@ source "googlecompute" "csye6225-app-custom-image" {
   disk_size               = var.disk_size
   disk_type               = var.disk_type
   image_name              = "csye6225-{{timestamp}}"
-  image_family            = "csye6225-app-custom-image"
+  image_family            = "csye6225-app-image"
   image_storage_locations = ["us"]
   ssh_username            = "packer"
 }
-
 
 build {
   name = "packer"
@@ -50,9 +50,9 @@ build {
     "source.googlecompute.csye6225-app-custom-image"
   ]
 
-  provisioner "shell" {
-    script = "updateOS.sh"
-  }
+  // provisioner "shell" {
+  //   script = "updateOS.sh"
+  // }
 
   provisioner "shell" {
     script = "setupGolang.sh"
@@ -63,15 +63,14 @@ build {
   }
 
   provisioner "shell" {
-    script = "addUser.sh"
+    script = "setupVmUser.sh"
   }
 
   provisioner "shell" {
     script = "setupApp.sh"
   }
 
-  provisioner "file" {
-    source      = "webapp.service"
-    destination = "/etc/systemd/system/webapp.service"
+  provisioner "shell" {
+    script = "setupAppService.sh"
   }
 }
