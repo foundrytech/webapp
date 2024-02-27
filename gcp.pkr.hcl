@@ -72,8 +72,7 @@ build {
     script = "setupDB.sh"
   }
 
-  provisioner "shell" {
-    script = "setupVmUser.sh"
+  provisioner "shell" {script = "setupVmUser.sh"
   }
 
   provisioner "shell" {
