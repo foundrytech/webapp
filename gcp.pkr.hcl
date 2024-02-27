@@ -98,7 +98,7 @@ build {
   }
 
   provisioner "file" {
-    source      = var.service_file_path
+    source      = var.service_file_paths
     destination = "/etc/systemd/system/webapp.service"
   }
 
