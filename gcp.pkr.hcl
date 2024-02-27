@@ -57,7 +57,7 @@ source "googlecompute" "csye6225-app-custom-image" {
 build {
   name = "packer"
   sources = [
-    "source.googlecompute.csye6225-app-custom-image"
+
   ]
 
   // provisioner "shell" {
