@@ -48,7 +48,6 @@ jobs:
       - name: Setup github runner environment variables for integration tests
         run: |
           { 
-            echo "ENV=github";
             echo "DB_HOST=localhost"; 
             echo "DB_PORT=5432"; 
             echo "DB_USER=postgres"; 
