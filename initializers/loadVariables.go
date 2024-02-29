@@ -17,7 +17,7 @@ func LoadVariables() {
 	case "cloud":
 		LoadAppProperties()
 	case "github":
-		
+		break
 	default:
 		err := godotenv.Load()
 
