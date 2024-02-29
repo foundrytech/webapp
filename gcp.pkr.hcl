@@ -90,7 +90,7 @@ build {
     destination = "/opt/myapp/webapp"
   }
 
-  provisoner "file" {
+  provisioner "file" {
     source      = var.app_properties_path
     destination = "/opt/myapp/app.properties"
   }
