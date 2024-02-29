@@ -5,13 +5,14 @@ on:
     types:
       - closed
 
-env:
-  PACKER_VERSION: "1.10.1"
-
 jobs:
   packer-build-custom-image:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    env:
+      ENV: "github"
+      GO_VERSION: "1.21.6"
+      PACKER_VERSION: "1.10.1"
 
     services:
       postgres:
@@ -38,7 +39,7 @@ jobs:
       - name: Set up Go 1.21.6
         uses: actions/setup-go@v5.0.0
         with:
-          go-version: "1.21.6"
+          go-version: ${{ env.GO_VERSION }}
       - run: go version
 
       - name: Get all dependencies based on go.mod
@@ -54,6 +55,12 @@ jobs:
             echo "DB_PASSWORD=postgres"; 
             echo "DB_NAME=postgres" 
           } >> $GITHUB_ENV
+
+      - name: Print Environment Variable for debugging
+        run: echo "ENV=${{ env.ENV }}"
+
+      - name: Enable Debug Logging
+        run: echo "::debug::Debug logging enabled"
 
       - name: Run integration tests
         run: go test -v ./...
