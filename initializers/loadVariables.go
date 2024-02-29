@@ -9,17 +9,21 @@ import (
 	"github.com/joho/godotenv"
 )
 
-var AppProperties map[string]string
-
 func LoadVariables() {	
-	if _, err := os.Stat(".env"); err == nil {
+
+	env := os.Getenv("ENV")
+
+	switch env {
+	case "cloud":
+		LoadAppProperties()
+	case "github":
+		
+	default:
 		err := godotenv.Load()
 
 		if err != nil {
 			log.Fatal("Error loading .env file")
 		}
-	} else {
-		LoadAppProperties()
 	}
 }
 
@@ -30,9 +34,6 @@ func LoadAppProperties() {
 	}
 	defer file.Close()
 
-	// The make function is used to initialize maps, slices, and channels.
-	AppProperties = make(map[string]string)
-
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -42,7 +43,7 @@ func LoadAppProperties() {
 		}
 		key := line[:equalIndex]
 		value := line[equalIndex+1:]
-		AppProperties[key] = value
+		os.Setenv(key, value)
 	}
 
 	if err := scanner.Err(); err != nil {
