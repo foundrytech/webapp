@@ -44,7 +44,7 @@ jobs:
       - name: Get all dependencies based on go.mod
         run: go mod download
 
-      - name: Setup environment variables
+      - name: Setup github runner environment variables for integration tests
         run: |
           { 
             echo "ENV=github";
