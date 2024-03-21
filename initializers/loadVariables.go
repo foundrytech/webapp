@@ -51,5 +51,6 @@ func LoadAppProperties() {
 
 	if err := scanner.Err(); err != nil {
 		initializersLogger.Error().Err(err).Msg("Error reading app.properties file")
-	}
+	} else {
+		initializersLogger.Info().Msg("Loaded app.properties file")}
 }
