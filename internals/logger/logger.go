@@ -15,7 +15,6 @@ func InitLogger() {
 	}
 	defer file.Close()
 
-	zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	Logger = zerolog.New(file).With().Timestamp().Logger()
+	Logger = zerolog.New(file).Level(zerolog.InfoLevel).With().Timestamp().Logger()
 	Logger.Info().Msg("Logger initialized")
 }
