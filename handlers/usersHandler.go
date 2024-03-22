@@ -15,7 +15,7 @@ import (
 )
 
 func CreateUser(c *gin.Context) {
-	logFile, logErr := os.OpenFile("webapp.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0664)
+	logFile, logErr := os.OpenFile("/tmp/webapp.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0664)
 	if logErr != nil {
 		panic(logErr)
 	}
@@ -93,7 +93,7 @@ func CreateUser(c *gin.Context) {
 }
 
 func GetUser(c *gin.Context) {
-	logFile, logErr := os.OpenFile("webapp.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0664)
+	logFile, logErr := os.OpenFile("/tmp/webapp.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0664)
 	if logErr != nil {
 		panic(logErr)
 	}
@@ -114,7 +114,7 @@ func GetUser(c *gin.Context) {
 }
 
 func UpdateUser(c *gin.Context) {
-	logFile, logErr := os.OpenFile("webapp.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0664)
+	logFile, logErr := os.OpenFile("/tmp/webapp.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0664)
 	if logErr != nil {
 		panic(logErr)
 	}

@@ -13,7 +13,7 @@ var DB *gorm.DB
 
 func ConnectDB() () {
 
-	logFile, logErr := os.OpenFile("webapp.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0664)
+	logFile, logErr := os.OpenFile("/tmp/webapp.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0664)
 	if logErr != nil {
 		panic(logErr)
 	}
