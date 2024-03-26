@@ -88,7 +88,7 @@ func BasicAuth () gin.HandlerFunc {
 
 		var user models.User
 		result := initializers.DB.First(&user, "username = ?", username)
-		// Check if the user exists 
+		// Check whether the user exists
 		if result.Error != nil {
 			logger.Error().Err(result.Error).Msg("User does not exist")
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
@@ -122,23 +122,7 @@ func NeedVerify() gin.HandlerFunc {
 			defer logFile.Close()
 			logger := zerolog.New(logFile).Level(zerolog.InfoLevel).With().Timestamp().Logger()
 
-			// Get the username from the request context
-			username, exists := c.Get("user.username")
-			if !exists {
-				logger.Error().Msg("User not authenticated")
-				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": "User not authenticated"})
-				return
-			}
-
-			// Retrieve the user from the database
-			var user models.User
-			if err := initializers.DB.First(&user, "username = ?", username).Error; err != nil {
-					logger.Error().Err(err).Msg("Failed to retrieve user")
-					c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve user"})
-					return
-			}
-
-			// Check whether the user is verified
+			user := c.MustGet("user").(models.User)
 			if !user.Verified {
 					logger.Error().Msg("User email not verified")
 					c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "User email not verified"})
