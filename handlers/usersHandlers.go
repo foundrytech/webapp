@@ -143,7 +143,7 @@ func VerifyEmail(c *gin.Context) {
 			return
 	}
 
-	if time.Now().After(user.AccountCreated.Add(2 * time.Minute)) {
+	if time.Now().After(user.VerificationTokenCreated.Add(2 * time.Minute)) {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Verification token has expired",
 	})
