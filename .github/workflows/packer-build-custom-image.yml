@@ -63,10 +63,10 @@ jobs:
           go build -ldflags="-linkmode external -extldflags -static" -o webapp
           echo "Application built successfully"
 
-      - name: Authenticate Packer to Google Cloud via service sccount key
+      - name: Authenticate to Google Cloud via service sccount key
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets.PACKER_SERVICE_ACCOUNT}}
+          credentials_json: ${{ secrets.SERVICE_ACCOUNT_FOR_GITHUB_ACTIONS }}
 
       - name: Setup `packer`
         uses: hashicorp/setup-packer@main
