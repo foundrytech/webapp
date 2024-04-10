@@ -1,13 +1,18 @@
-name: Go webapp workflow
+name: CI/CD workflow
 
-on: pull_request
+on:
+  pull_request:
+    types:
+      - closed
 
 jobs:
-  integration-tests:
+  build-custom-image-and-deploy:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     env:
       ENV: "github"
       GO_VERSION: "1.21.6"
+      PACKER_VERSION: "1.10.1"
 
     services:
       postgres:
@@ -28,7 +33,7 @@ jobs:
           --health-retries 5
 
     steps:
-      - name: Check out code into the Go module directory
+      - name: Check out code into app directory
         uses: actions/checkout@v4
 
       - name: Set up Go 1.21.6
@@ -52,3 +57,25 @@ jobs:
 
       - name: Run integration tests
         run: go test -v ./...
+
+      - name: Build the application
+        run: |
+          go build -ldflags="-linkmode external -extldflags -static" -o webapp
+          echo "Application built successfully"
+
+      - name: Authenticate to Google Cloud via service sccount key
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.SERVICE_ACCOUNT_FOR_GITHUB_ACTIONS }}
+
+      - name: Setup `packer`
+        uses: hashicorp/setup-packer@main
+        with:
+          version: ${{ env.PACKER_VERSION }}
+
+      - name: Build the custom image using Packer
+        run: |
+          packer init .
+          packer build .
+
+      
