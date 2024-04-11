@@ -130,4 +130,9 @@ jobs:
             --min-ready=3m \
             --max-unavailable=3
 
-
+      - name: Wait for update to complete
+        run: |
+          while [[ $(gcloud compute instance-groups managed describe ${NEW_TEMPLATE_NAME} --region ${{secrets.REGION}} --format="get(status.isStable)") != "True" ]]; do
+            echo "The update is still in progress"
+            sleep 10
+          done
