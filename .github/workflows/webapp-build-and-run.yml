@@ -1,6 +1,6 @@
 name: Webapp workflow
 
-on: pull_request
+on: fork
 
 jobs:
   build-and-run:
