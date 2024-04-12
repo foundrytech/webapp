@@ -1,6 +1,6 @@
 name: Packer workflow
 
-on: fork
+on: pull_request
 
 env:
   PACKER_VERSION: "1.10.1"
